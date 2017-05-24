@@ -3,6 +3,7 @@ from app.api import get_rate
 # {'code': 'USD', 'currency': 'dolar amerykański', 'table': 'A', 'rates':
 # [{'mid': 3.4454, 'no': '1/A/NBP/2012', 'effectiveDate': '2012-01-02'},
 def get_exchange(cur_from, cur_to, date_from, date_to):
+    print("Calculating exchange")
     exchange = []
     if cur_from == "pln" or cur_to == "pln":
         print("pln")

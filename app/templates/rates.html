@@ -10,7 +10,7 @@
     <div class="nav">
 
         <a href="/rates/?{{get_request}}"
-            class="btn {% if '/rates/?'|add:get_request == request.get_full_path %}btn-primary{% endif %}">
+            class="btn {% if '/rates/?'|add:get_request == request.get_full_path or request.path == '/' %}btn-primary{% endif %}">
             Plot & Table</a>
         <a href="/plot/?{{get_request}}"
             class="btn {% if '/plot/?'|add:get_request == request.get_full_path %}btn-primary{% endif %}">
@@ -19,7 +19,7 @@
             class="btn {% if '/table/?'|add:get_request == request.get_full_path %}btn-primary{% endif %}">
             Table</a>
     </div>
-    <form action="{{ request.path }}" method="get" class="form">
+    <form action="{% if request.path == '/' %}rates{%else%}{{ request.path }}{% endif %}" method="get" class="form">
         <div class="row form__row">
             <div class="form__row-block">
                 <label>From</label>
