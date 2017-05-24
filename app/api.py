@@ -10,7 +10,7 @@ def get_rate(currency, start_date, end_date):
         weburl = urlopen(url)
     except URLError as e:
         print(e.reason)
-        return False
+        raise ValueError('Can not open api url')
     else:
         data = weburl.read()
         encoding = weburl.info().get_content_charset('utf-8')

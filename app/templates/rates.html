@@ -51,7 +51,7 @@
         <input type="submit" class="btn btn-primary" />
     </form>
     {% if error %}
-        {{ error.what }}
+        {{ error }}
     {% else %}
         {% if plot %}
             {% include "components/plot.html" %}
