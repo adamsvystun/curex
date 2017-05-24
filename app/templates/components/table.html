@@ -1,0 +1,14 @@
+<div>
+    <table>
+        <tr>
+            <th>Rate</th>
+            <th>Date</th>
+        </tr>
+        {% for val in exchange %}
+        <tr>
+            <td>{{ val.rate }}</td>
+            <td>{{ val.date }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>

@@ -5,10 +5,32 @@
         <title>Test</title>
     </head>
     <body>
-            {{ cur_to }}
-            {{ cur_from }}
-            {{ date_to }}
-            {{ date_from }}
-
+        <form action="/rates/" method="get">
+            <label>From</label>
+            <select id="currency_from" name="currency_from">
+                <option value="usd" {% if "usd" == cur_from %}selected="selected"{% endif %}>usd</option>
+                <option value="eur" {% if "eur" == cur_from %}selected="selected"{% endif %}>eur</option>
+                <option value="pln" {% if "pln" == cur_from %}selected="selected"{% endif %}>pln</option>
+                <option value="aud" {% if "aud" == cur_from %}selected="selected"{% endif %}>aud</option>
+            </select>
+            <label>To</label>
+            <select id="currency_to" name="currency_to">
+                <option value="usd" {% if "usd" == cur_to %}selected="selected"{% endif %}>usd</option>
+                <option value="eur" {% if "eur" == cur_to %}selected="selected"{% endif %}>eur</option>
+                <option value="pln" {% if "pln" == cur_to %}selected="selected"{% endif %}>pln</option>
+                <option value="aud" {% if "aud" == cur_to %}selected="selected"{% endif %}>aud</option>
+            </select>
+            <label>Date from</label>
+            <input type="date" value="{{ date_from }}" name="date_from"/>
+            <label>Date to</label>
+            <input type="date" value="{{ date_to }}" name="date_to"/>
+            <input type="submit" />
+        </form>
+        {% if error %}
+            {{ error.what }}
+        {% else %}
+            {% include "components/plot.html" %}
+            {% include "components/table.html" %}
+        {% endif %}
     </body>
 </html>

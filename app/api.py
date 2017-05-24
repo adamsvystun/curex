@@ -4,7 +4,7 @@ import json
 def get_rate(currency, start_date, end_date):
     url = 'http://api.nbp.pl/api/exchangerates/rates/A/'+currency
     if start_date and end_date:
-        url += '/'+start_date+'/'+end_date+'/'
+        url += '/'+start_date.isoformat()+'/'+end_date.isoformat()+'/'
     url += '?format=json'
     try:
         weburl = urlopen(url)
