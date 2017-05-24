@@ -8,7 +8,7 @@ from app.plot import get_plot
 def index(request):
     return HttpResponse("Hello, world. You're at the polls index.")
 
-def rates(request):
+def rates(request, show_plot=True, show_table=True):
     cur_from = request.GET.get("currency_from") or "usd"
     cur_to = request.GET.get("currency_to") or "eur"
     if cur_from == cur_to:
@@ -31,7 +31,9 @@ def rates(request):
     else:
         date_to = date.today()
     exchange = get_exchange(cur_from, cur_to, date_from, date_to)
-    plot = get_plot(exchange)
+    plot = None
+    if show_plot:
+        plot = get_plot(exchange)
     return render(request, 'rates.html', {
         "exchange": exchange,
         "plot": plot,
@@ -40,4 +42,5 @@ def rates(request):
         "date_from": date_from.isoformat(),
         "date_to": date_to.isoformat(),
         "get_request": request.get_full_path().rsplit('?', 1)[-1],
+        "show_table": show_table,
     })

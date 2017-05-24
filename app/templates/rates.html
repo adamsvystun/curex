@@ -19,7 +19,7 @@
             class="btn {% if '/table/?'|add:get_request == request.get_full_path %}btn-primary{% endif %}">
             Table</a>
     </div>
-    <form action="/rates/" method="get" class="form">
+    <form action="{{ request.path }}" method="get" class="form">
         <div class="row form__row">
             <div class="form__row-block">
                 <label>From</label>
@@ -53,8 +53,12 @@
     {% if error %}
         {{ error.what }}
     {% else %}
-        {% include "components/plot.html" %}
-        {% include "components/table.html" %}
+        {% if plot %}
+            {% include "components/plot.html" %}
+        {% endif %}
+        {% if show_table %}
+            {% include "components/table.html" %}
+        {% endif %}
     {% endif %}
 </div>
 {% endblock %}
