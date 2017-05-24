@@ -38,5 +38,6 @@ def rates(request):
         "cur_from": cur_from,
         "cur_to": cur_to,
         "date_from": date_from.isoformat(),
-        "date_to": date_to.isoformat()
+        "date_to": date_to.isoformat(),
+        "get_request": request.get_full_path().rsplit('?', 1)[-1],
     })

@@ -10,7 +10,7 @@ def get_plot(exchange):
 
     # trace1 = go.Scatter(x=x, y=y, marker={'color': 'red', 'symbol': 104, 'size': "10"},
     #                     mode="lines",  name='1st Trace')
-    trace1 = go.Scatter(x=x, y=y)
+    trace1 = go.Scatter(x=x, y=y, marker={'color': '#33C3F0'})
     data=go.Data([trace1])
     layout=go.Layout()
     figure=go.Figure(data=data,layout=layout)

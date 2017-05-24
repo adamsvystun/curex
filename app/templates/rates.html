@@ -1,36 +1,60 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Test</title>
-    </head>
-    <body>
-        <form action="/rates/" method="get">
-            <label>From</label>
-            <select id="currency_from" name="currency_from">
-                <option value="usd" {% if "usd" == cur_from %}selected="selected"{% endif %}>usd</option>
-                <option value="eur" {% if "eur" == cur_from %}selected="selected"{% endif %}>eur</option>
-                <option value="pln" {% if "pln" == cur_from %}selected="selected"{% endif %}>pln</option>
-                <option value="aud" {% if "aud" == cur_from %}selected="selected"{% endif %}>aud</option>
-            </select>
-            <label>To</label>
-            <select id="currency_to" name="currency_to">
-                <option value="usd" {% if "usd" == cur_to %}selected="selected"{% endif %}>usd</option>
-                <option value="eur" {% if "eur" == cur_to %}selected="selected"{% endif %}>eur</option>
-                <option value="pln" {% if "pln" == cur_to %}selected="selected"{% endif %}>pln</option>
-                <option value="aud" {% if "aud" == cur_to %}selected="selected"{% endif %}>aud</option>
-            </select>
-            <label>Date from</label>
-            <input type="date" value="{{ date_from }}" name="date_from"/>
-            <label>Date to</label>
-            <input type="date" value="{{ date_to }}" name="date_to"/>
-            <input type="submit" />
-        </form>
-        {% if error %}
-            {{ error.what }}
-        {% else %}
-            {% include "components/plot.html" %}
-            {% include "components/table.html" %}
-        {% endif %}
-    </body>
-</html>
+{%extends "layouts/main.html" %}
+
+{% block head %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/rates.css' %}" />
+{% endblock %}
+
+{% block body %}
+<div class="main card">
+    <div class="nav">
+
+        <a href="/rates/?{{get_request}}"
+            class="btn {% if '/rates/?'|add:get_request == request.get_full_path %}btn-primary{% endif %}">
+            Plot & Table</a>
+        <a href="/plot/?{{get_request}}"
+            class="btn {% if '/plot/?'|add:get_request == request.get_full_path %}btn-primary{% endif %}">
+            Plot</a>
+        <a href="/table/?{{get_request}}"
+            class="btn {% if '/table/?'|add:get_request == request.get_full_path %}btn-primary{% endif %}">
+            Table</a>
+    </div>
+    <form action="/rates/" method="get" class="form">
+        <div class="row form__row">
+            <div class="form__row-block">
+                <label>From</label>
+                <select id="currency_from" name="currency_from">
+                    <option value="usd" {% if "usd" == cur_from %}selected="selected"{% endif %}>usd</option>
+                    <option value="eur" {% if "eur" == cur_from %}selected="selected"{% endif %}>eur</option>
+                    <option value="pln" {% if "pln" == cur_from %}selected="selected"{% endif %}>pln</option>
+                    <option value="aud" {% if "aud" == cur_from %}selected="selected"{% endif %}>aud</option>
+                </select>
+            </div>
+            <div class="form__row-block">
+                <label>To</label>
+                <select id="currency_to" name="currency_to">
+                    <option value="usd" {% if "usd" == cur_to %}selected="selected"{% endif %}>usd</option>
+                    <option value="eur" {% if "eur" == cur_to %}selected="selected"{% endif %}>eur</option>
+                    <option value="pln" {% if "pln" == cur_to %}selected="selected"{% endif %}>pln</option>
+                    <option value="aud" {% if "aud" == cur_to %}selected="selected"{% endif %}>aud</option>
+                </select>
+            </div>
+            <div class="form__row-block">
+                <label>Date from</label>
+                <input type="date" value="{{ date_from }}" name="date_from"/>
+            </div>
+            <div class="form__row-block">
+                <label>Date to</label>
+                <input type="date" value="{{ date_to }}" name="date_to"/>
+            </div>
+        </div>
+        <input type="submit" class="btn btn-primary" />
+    </form>
+    {% if error %}
+        {{ error.what }}
+    {% else %}
+        {% include "components/plot.html" %}
+        {% include "components/table.html" %}
+    {% endif %}
+</div>
+{% endblock %}
