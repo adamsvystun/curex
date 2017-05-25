@@ -6,7 +6,7 @@ SECRET_KEY = 'k4fv!xi92#&-k+@v(ms6)xkc4$tm25s=k12kl4+h!cgc$2h6ax'
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['curex', '127.0.0.1' ]
 
 INSTALLED_APPS = [
     'django.contrib.admin',

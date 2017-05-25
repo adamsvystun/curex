@@ -17,10 +17,27 @@ def rates(request, show_plot=True, show_table=True):
     date_to = request.GET.get("date_to")
     exchange = None; plot = None; error = None
     # parsing dates to datetime.date objects
-    if date_from: date_from = datetime.strptime(date_from,'%Y-%m-%d').date()
-    else: date_from = date.today()-timedelta(days=7)
-    if date_to: date_to = datetime.strptime(date_to,'%Y-%m-%d').date()
-    else: date_to = date.today()
+    if date_from:
+        try:
+            date_from = datetime.strptime(date_from,'%Y-%m-%d').date()
+        except ValueError:
+            date_from = date.today()-timedelta(days=7)
+            error = "Not correct date format. Use isoformat YYYY-mm-dd."
+    else:
+        date_from = date.today()-timedelta(days=7)
+    if date_to:
+        try:
+            date_to = datetime.strptime(date_to,'%Y-%m-%d').date()
+        except ValueError:
+            date_to = date.today()
+            error = "Not correct date format. Use isoformat YYYY-mm-dd."
+    else:
+        date_to = date.today()
+    # Getting currency list
+    try:
+        currency_list = get_currencies()
+    except ValueError as e:
+        error = str(e)
     # checks for forbidden inputs
     if date_from > date_to:
         error = "Date from is greater than date to"
@@ -47,11 +64,7 @@ def rates(request, show_plot=True, show_table=True):
                 exchange = get_exchange(cur_from, cur_to, date_from, date_to)
             except ValueError as e:
                 error = str(e)
-    # Getting currency list
-    try:
-        currency_list = get_currencies()
-    except ValueError as e:
-        error = str(e)
+
     return render(request, 'rates.html', {
         "exchange": exchange,
         "plot": plot,

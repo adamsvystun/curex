@@ -21,12 +21,12 @@ And then visit `localhost:8000`
 
 Direct instalation
 Requirments:
-* Django 1.11
-* Python >3.5
+* Python >=3.5
 
 ```
 git clone https://github.com/adamsvystun/curex.git
 pip3 install plotly
+pip3 install django
 cd curex
 python3 manage.py migrate
 python3 manage.py createcachetable
@@ -37,6 +37,6 @@ python3 manage.py runserver
 
 ## Caching system
 
-There are two caches in this project.
-First one is local memory cache for caching plots. Plots expire in 100 seconds.
-Second one is database cache for caching api requests. It has expiration time set to forever (`None`).
+There are two caches in this project:
+1.First one is local memory cache for caching plots. Plots expire in 100 seconds.
+2.Second one is database cache for caching api requests. It has expiration time set to forever (`None`).
