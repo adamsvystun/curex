@@ -10,6 +10,7 @@ def get_exchange(cur_from, cur_to, date_from, date_to):
     in a certain date frame
     """
     exchange = []
+    # check if one of the currencies is 'pln'
     if cur_from == "pln":
         rates_to = get_rate(cur_to, date_from, date_to)
         for index, val in enumerate(rates_to):

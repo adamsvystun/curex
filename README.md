@@ -4,6 +4,8 @@ Currency exchange application in django.
 
 ## Running a project
 
+Please, use Chrome.
+
 ### First way
 
 Just go to this [link](http://curex.svit.net).

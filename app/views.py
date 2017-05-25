@@ -11,6 +11,7 @@ logger = logging.getLogger("app")
 
 def rates(request, show_plot=True, show_table=True):
     """Renders an exchange currency view"""
+    # parametrs from get
     cur_from = request.GET.get("currency_from") or "usd"
     cur_to = request.GET.get("currency_to") or "pln"
     date_from = request.GET.get("date_from")
@@ -33,7 +34,7 @@ def rates(request, show_plot=True, show_table=True):
             error = "Not correct date format. Use isoformat YYYY-mm-dd."
     else:
         date_to = date.today()
-    # Getting currency list
+    # getting currency list
     try:
         currency_list = get_currencies()
     except ValueError as e:
@@ -46,25 +47,28 @@ def rates(request, show_plot=True, show_table=True):
     elif cur_from == cur_to:
         error = "Selected currencies are the same"
     else:
-        if show_plot:
-            cache_key = cur_from+cur_to+date_from.isoformat()+date_to.isoformat()
-            plot_cache = caches['plot']
-            plot = plot_cache.get(cache_key)
-            if plot:
-                logger.info("Plot cache hit")
-            else:
-                try:
-                    exchange = get_exchange(cur_from, cur_to, date_from, date_to)
-                    if len(exchange):
-                        plot = get_plot(exchange, cache_key)
-                except ValueError as e:
-                    error = str(e)
-        if show_table and not exchange:
+        cache_key = cur_from+cur_to+date_from.isoformat()+date_to.isoformat()
+        if show_table:
             try:
                 exchange = get_exchange(cur_from, cur_to, date_from, date_to)
             except ValueError as e:
                 error = str(e)
-
+        if show_plot:
+            plot_cache = caches['plot']
+            plot = plot_cache.get(cache_key)
+            # check if plot is cache
+            if not plot:
+                # check if exchange rates have already been calculated
+                if exchange:
+                    plot = get_plot(exchange, cache_key)
+                else:
+                    try:
+                        exchange = get_exchange(cur_from, cur_to,
+                                                date_from, date_to)
+                        if len(exchange):
+                            plot = get_plot(exchange, cache_key)
+                    except ValueError as e:
+                        error = str(e)
     return render(request, 'rates.html', {
         "exchange": exchange,
         "plot": plot,

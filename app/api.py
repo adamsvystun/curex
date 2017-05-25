@@ -51,6 +51,7 @@ def get_rate(currency, start_date, end_date):
         url += '/'+start_date.isoformat()+'/'+end_date.isoformat()+'/'
     url += '?format=json'
     try:
+        logger.info("["+currency+"] Making a request")
         weburl = urlopen(url)
     except HTTPError as e:
         logger.warning('Error code: '+str(e.code)+", reason:"+e.reason)
