@@ -16,8 +16,9 @@ def rates(request, show_plot=True, show_table=True):
     else: date_from = date.today()-timedelta(days=7)
     if date_to: date_to = datetime.strptime(date_to,'%Y-%m-%d').date()
     else: date_to = date.today()
-
-    if cur_from == cur_to:
+    if date_from > date_to:
+        error = "Date from is greater than date to"
+    elif cur_from == cur_to:
         error = "Selected currencies are the same"
     else:
         if show_plot:
