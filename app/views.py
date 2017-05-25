@@ -12,7 +12,7 @@ logger = logging.getLogger("app")
 def rates(request, show_plot=True, show_table=True):
     """Renders an exchange currency view"""
     cur_from = request.GET.get("currency_from") or "usd"
-    cur_to = request.GET.get("currency_to") or "eur"
+    cur_to = request.GET.get("currency_to") or "pln"
     date_from = request.GET.get("date_from")
     date_to = request.GET.get("date_to")
     exchange = None; plot = None; error = None
