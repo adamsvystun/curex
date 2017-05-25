@@ -10,17 +10,22 @@ from app.plot import get_plot
 logger = logging.getLogger("app")
 
 def rates(request, show_plot=True, show_table=True):
+    """Renders an exchange currency view"""
     cur_from = request.GET.get("currency_from") or "usd"
     cur_to = request.GET.get("currency_to") or "eur"
     date_from = request.GET.get("date_from")
     date_to = request.GET.get("date_to")
     exchange = None; plot = None; error = None
+    # parsing dates to datetime.date objects
     if date_from: date_from = datetime.strptime(date_from,'%Y-%m-%d').date()
     else: date_from = date.today()-timedelta(days=7)
     if date_to: date_to = datetime.strptime(date_to,'%Y-%m-%d').date()
     else: date_to = date.today()
+    # checks for forbidden inputs
     if date_from > date_to:
         error = "Date from is greater than date to"
+    elif date_to > date.today():
+        error = "You cannot get exchange rates for the future"
     elif cur_from == cur_to:
         error = "Selected currencies are the same"
     else:
@@ -43,7 +48,10 @@ def rates(request, show_plot=True, show_table=True):
             except ValueError as e:
                 error = str(e)
     # Getting currency list
-    currency_list = get_currencies()
+    try:
+        currency_list = get_currencies()
+    except ValueError as e:
+        error = str(e)
     return render(request, 'rates.html', {
         "exchange": exchange,
         "plot": plot,
@@ -58,6 +66,7 @@ def rates(request, show_plot=True, show_table=True):
     })
 
 def cache_clear(request):
+    """Clears cache and redirects back to referer"""
     caches["plot"].clear()
     caches["default"].clear()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))

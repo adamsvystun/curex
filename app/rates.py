@@ -5,6 +5,10 @@ from django.core.cache import cache
 # {'code': 'USD', 'currency': 'dolar amerykański', 'table': 'A', 'rates':
 # [{'mid': 3.4454, 'no': '1/A/NBP/2012', 'effectiveDate': '2012-01-02'},
 def get_exchange(cur_from, cur_to, date_from, date_to):
+    """
+    Calculates exchange rates for two currencies
+    in a certain date frame
+    """
     exchange = []
     if cur_from == "pln":
         rates_to = get_rate(cur_to, date_from, date_to)
@@ -34,7 +38,11 @@ def get_exchange(cur_from, cur_to, date_from, date_to):
     return exchange
 
 def get_currencies():
+    """
+    Returns a list of all available currencies
+    """
     currency_list = cache.get("currency_list")
+    # check if in cache
     if currency_list:
         return currency_list
     else:
