@@ -20,6 +20,8 @@ body {
 }
 .nav {
     margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
 }
 .form__row {
     margin-bottom: 10px;

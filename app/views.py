@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from datetime import date, timedelta, datetime
 from django.core.cache import caches
 
@@ -48,3 +48,8 @@ def rates(request, show_plot=True, show_table=True):
         "show_table": show_table,
         "error": error
     })
+
+def cache_clear(request):
+    caches["plot"].clear()
+    caches["default"].clear()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
