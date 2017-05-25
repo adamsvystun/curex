@@ -59,15 +59,15 @@
     {% if error %}
         {{ error }}
     {% else %}
-        {% if exchange|length %}
-            {% if plot %}
-                {% include "components/plot.html" %}
+        {% if plot %}
+            {% include "components/plot.html" %}
+        {% endif %}
+        {% if show_table %}
+            {% if exchange|length %}
+                    {% include "components/table.html" %}
+            {% else %}
+                No exchange rates found for your selection
             {% endif %}
-            {% if show_table %}
-                {% include "components/table.html" %}
-            {% endif %}
-        {% else %}
-            No exchange rates found for your selection
         {% endif %}
     {% endif %}
 </div>

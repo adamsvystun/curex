@@ -33,7 +33,8 @@ def rates(request, show_plot=True, show_table=True):
             else:
                 try:
                     exchange = get_exchange(cur_from, cur_to, date_from, date_to)
-                    plot = get_plot(exchange, cache_key)
+                    if len(exchange):
+                        plot = get_plot(exchange, cache_key)
                 except ValueError as e:
                     error = str(e)
         if show_table and not exchange:

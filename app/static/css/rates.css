@@ -15,12 +15,14 @@ body {
 }
 .main {
     margin: 10px auto 0 auto;
-    width: 700px;
+    width: 100%;
+    max-width: 700px;
     padding: 10px;
 }
 .nav {
     margin-bottom: 10px;
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
 }
 .form__row {
@@ -31,6 +33,7 @@ body {
 }
 .row {
     display: flex;
+    flex-wrap: wrap;
 }
 .btn {
     display: inline-block;
