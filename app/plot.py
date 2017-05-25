@@ -7,17 +7,13 @@ def get_plot(exchange, cache_key):
     x = []
     y = []
     div = plot_cache.get(cache_key)
-    if div:
-        print("Plot cache hit")
-        return div
-    else:
-        for val in exchange:
-            y.append(val["rate"])
-            x.append(val["date"])
-        trace1 = go.Scatter(x=x, y=y, marker={'color': '#33C3F0'})
-        data=go.Data([trace1])
-        layout=go.Layout()
-        figure=go.Figure(data=data,layout=layout)
-        div = opy.plot(figure, auto_open=False, output_type='div', show_link=False, config={"displayModeBar":False})
-        plot_cache.set(cache_key, div, 30)
-        return div
+    for val in exchange:
+        y.append(val["rate"])
+        x.append(val["date"])
+    trace1 = go.Scatter(x=x, y=y, marker={'color': '#33C3F0'})
+    data=go.Data([trace1])
+    layout=go.Layout()
+    figure=go.Figure(data=data,layout=layout)
+    div = opy.plot(figure, auto_open=False, output_type='div', show_link=False, config={"displayModeBar":False})
+    plot_cache.set(cache_key, div, 30)
+    return div

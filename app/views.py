@@ -2,9 +2,12 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from datetime import date, timedelta, datetime
 from django.core.cache import caches
+import logging
 
 from app.rates import get_exchange
 from app.plot import get_plot
+
+logger = logging.getLogger("app")
 
 def rates(request, show_plot=True, show_table=True):
     cur_from = request.GET.get("currency_from") or "usd"
@@ -26,7 +29,7 @@ def rates(request, show_plot=True, show_table=True):
             plot_cache = caches['plot']
             plot = plot_cache.get(cache_key)
             if plot:
-                print("Plot cache hit")
+                logger.info("Plot cache hit")
             else:
                 try:
                     exchange = get_exchange(cur_from, cur_to, date_from, date_to)

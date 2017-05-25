@@ -2,6 +2,9 @@ from urllib.request import urlopen, URLError, HTTPError
 import json
 from django.core.cache import cache
 from datetime import datetime, timedelta
+import logging
+
+logger = logging.getLogger("app")
 
 def get_rate(currency, start_date, end_date):
     url = 'http://api.nbp.pl/api/exchangerates/rates/A/'+currency
@@ -20,10 +23,10 @@ def get_rate(currency, start_date, end_date):
                 break
             idate = idate + timedelta(days=1)
         if hit:
-            print("["+currency+"] Rates cache hit")
+            logger.info("["+currency+"] Rates cache hit")
             return rates
         else:
-            print("["+currency+"] Hit for", str((idate-start_date).days))
+            logger.info("["+currency+"] Hit for", str((idate-start_date).days))
             start_date = idate
     else:
         cache_cur = {}
@@ -33,11 +36,10 @@ def get_rate(currency, start_date, end_date):
     try:
         weburl = urlopen(url)
     except HTTPError as e:
-        print(e.reason)
-        print('Error code: ', e.code)
+        logger.warning('Error code: '+str(e.code)+", reason:"+e.reason)
         return rates
     except URLError as e:
-        print(e.reason)
+        logger.error(e.reason)
         raise ValueError('Can not open api url')
     else:
         data = weburl.read()
@@ -57,7 +59,6 @@ def get_rate(currency, start_date, end_date):
             cache_cur[idate.isoformat()] = rate
             idate = idate + timedelta(days=1)
             rates.append(rate)
-        print(cache_cur)
         cache.set(currency, cache_cur, None)
         return rates
 
@@ -66,7 +67,7 @@ def get_table():
     try:
         weburl = urlopen(url)
     except URLError as e:
-        print(e.reason)
+        logger.error(e.reason)
         raise ValueError('Can not open api url')
     else:
         data = weburl.read()
