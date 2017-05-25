@@ -30,19 +30,21 @@
             <div class="form__row-block">
                 <label>From</label>
                 <select id="currency_from" name="currency_from">
-                    <option value="usd" {% if "usd" == cur_from %}selected="selected"{% endif %}>usd</option>
-                    <option value="eur" {% if "eur" == cur_from %}selected="selected"{% endif %}>eur</option>
-                    <option value="pln" {% if "pln" == cur_from %}selected="selected"{% endif %}>pln</option>
-                    <option value="aud" {% if "aud" == cur_from %}selected="selected"{% endif %}>aud</option>
+                    {% for currency in currency_list %}
+                    <option value="{{currency.code|lower}}" {% if currency.code|lower == cur_from %}selected="selected"{% endif %}>
+                        {{currency.code|lower}}
+                    </option>
+                    {% endfor %}
                 </select>
             </div>
             <div class="form__row-block">
                 <label>To</label>
                 <select id="currency_to" name="currency_to">
-                    <option value="usd" {% if "usd" == cur_to %}selected="selected"{% endif %}>usd</option>
-                    <option value="eur" {% if "eur" == cur_to %}selected="selected"{% endif %}>eur</option>
-                    <option value="pln" {% if "pln" == cur_to %}selected="selected"{% endif %}>pln</option>
-                    <option value="aud" {% if "aud" == cur_to %}selected="selected"{% endif %}>aud</option>
+                    {% for currency in currency_list %}
+                    <option value="{{currency.code|lower}}" {% if currency.code|lower == cur_to %}selected="selected"{% endif %}>
+                        {{currency.code|lower}}
+                    </option>
+                    {% endfor %}
                 </select>
             </div>
             <div class="form__row-block">

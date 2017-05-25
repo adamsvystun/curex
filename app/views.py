@@ -4,7 +4,7 @@ from datetime import date, timedelta, datetime
 from django.core.cache import caches
 import logging
 
-from app.rates import get_exchange
+from app.rates import get_exchange, get_currencies
 from app.plot import get_plot
 
 logger = logging.getLogger("app")
@@ -42,6 +42,8 @@ def rates(request, show_plot=True, show_table=True):
                 exchange = get_exchange(cur_from, cur_to, date_from, date_to)
             except ValueError as e:
                 error = str(e)
+    # Getting currency list
+    currency_list = get_currencies()
     return render(request, 'rates.html', {
         "exchange": exchange,
         "plot": plot,
@@ -51,6 +53,7 @@ def rates(request, show_plot=True, show_table=True):
         "date_to": date_to.isoformat(),
         "get_request": request.get_full_path().rsplit('?', 1)[-1],
         "show_table": show_table,
+        "currency_list": currency_list,
         "error": error
     })
 
