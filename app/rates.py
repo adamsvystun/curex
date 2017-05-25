@@ -47,6 +47,7 @@ def get_currencies():
         return currency_list
     else:
         table = get_table()
-        print(table)
-        cache.set("currency_list", table[0]["rates"], None)
-        return table[0]["rates"]
+        currency_list = table[0]["rates"]
+        currency_list.append({"code": "pln"})
+        cache.set("currency_list", currency_list, None)
+        return currency_list
